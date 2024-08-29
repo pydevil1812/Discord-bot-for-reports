@@ -1,0 +1,2 @@
+Client folder: this program (which is located in the client_new file) is written in the python programming language, it works as follows: your machine composes a json file according to a given scheme (which is in the example file) (I created an example of how the program should be called in the test file);
+Server folder: The ds_config file stores the TOKEN and CHANNEL_ID, they need to be replaced for your bot and channel. The server processes the received file and sends it to discord in human form, as well as the server can be stopped by writing "stop" in the terminal.
