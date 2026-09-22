@@ -1,2 +1,43 @@
-Client folder: this program (which is located in the client_new file) is written in the python programming language, it works as follows: your machine composes a json file according to a given scheme (which is in the example file) (I created an example of how the program should be called in the test file);
-Server folder: The ds_config file stores the TOKEN and CHANNEL_ID, they need to be replaced for your bot and channel. The server processes the received file and sends it to discord in human form, as well as the server can be stopped by writing "stop" in the terminal.
+# Discord bot for reports
+
+Клиент-серверный сервис для доставки отчётов в Discord. Клиент формирует JSON-отчёт и отправляет его по TCP, сервер принимает данные, преобразует их в текстовое уведомление и публикует в заданном Discord-канале.
+
+## Возможности
+
+- Создание отчёта с полями `host`, `time` и `text`.
+- Отправка JSON-данных по TCP на порт `1234`.
+- Проверка данных через `jsonschema` перед отправкой.
+- Публикация полученного отчёта в Discord через бота.
+- Остановка сервера командой `stop` в терминале.
+
+## Архитектура
+
+```text
+Client/client_new.py  # чтение, проверка и отправка JSON-отчёта
+Client/test.py        # пример создания и отправки отчёта
+Server/bot.py         # Discord-бот и TCP-сервер
+Server/ds_config.json # шаблон токена и идентификатора канала
+```
+
+Поток данных: `test.py` → TCP-клиент → `bot.py` → Discord-канал.
+
+## Технологии
+
+- Python 3, `discord.py`, `jsonschema`
+- `socket`, `asyncio`, `json`, `datetime`
+- Discord Bot API
+
+## Установка и запуск
+
+```bash
+python -m pip install discord.py jsonschema
+cd Server && python bot.py
+# в другом терминале
+cd Client && python test.py
+```
+
+Введите `1`, чтобы создать тестовый JSON и отправить его на `localhost:1234`. Для работы на разных компьютерах измените адрес и порт в клиенте и сервере согласованно.
+
+## Статус и ограничения
+
+Проект пока является прототипом. Транспорт не использует шифрование или аутентификацию, сервер читает только до 1024 байт, а пример JSON пока служит шаблоном данных, а не строгой JSON Schema. Реальный токен Discord нельзя хранить в репозитории.
